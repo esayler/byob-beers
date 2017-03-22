@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "build your own backend",
   "main": "server.js",
+  "scripts": {
+    "test": "mocha test/**.js",
+    "start": "nodemon server.js --ignore public/"
+  },
   "repository": "git@github.com:esayler/byob.git",
   "author": "Eric Sayler <easayler@gmail.com>",
   "license": "MIT",
