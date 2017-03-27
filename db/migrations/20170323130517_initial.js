@@ -11,7 +11,7 @@ exports.up = function (knex, Promise) {
       table.increments('id').primary()
       table.string('name')
       table.string('style')
-      table.decimal('abv')
+      table.decimal('abv', 6, 4).unsigned()
       table.decimal('ibu').unsigned()
       table.integer('beer_id')
       table.integer('brewery_id')
