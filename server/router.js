@@ -236,7 +236,7 @@ router.patch('/beers/:id', (req, res) => {
     knex('beers').where('id', id).then(beers => res.status(200).json(Beers.render(beers)))
   })
   .catch(error => {
-    console.error(chalk.red('error getting a specific beer', JSON.stringify(error)))
+    console.error(chalk.red('error patching a specific beer', JSON.stringify(error)))
     res.sendStatus(500)
   })
 })
@@ -253,7 +253,7 @@ router.patch('/breweries/:id', (req, res) => {
     knex('breweries').where('id', id).then(breweries => res.status(200).json(Breweries.render(breweries)))
   })
   .catch(error => {
-    console.error(chalk.red('error getting a specific beer', JSON.stringify(error)))
+    console.error(chalk.red('error patching a specific brewery', JSON.stringify(error)))
     res.sendStatus(500)
   })
 })
@@ -269,8 +269,65 @@ router.patch('/users/:id', (req, res) => {
     knex('users').where('id', id).then(users => res.status(200).json(Users.render(users)))
   })
   .catch(error => {
-    console.error(chalk.red('error getting a specific beer', JSON.stringify(error)))
-    res.sendStatus(500)
+    console.error(chalk.red('error patching a specific user', JSON.stringify(error)))
+    res.status(500).json(error)
+  })
+})
+
+// delete a user
+router.delete('/users/:id', (req, res) => {
+  const { id } = req.params
+  knex('users').where('id', id).del()
+  .then(rows => {
+    console.log(chalk.blue('deleted user: ', rows))
+    res.sendStatus(200)
+  })
+  .catch(error => {
+    console.error(chalk.red('error deleting user', JSON.stringify(error)))
+    res.status(500).json(error)
+  })
+})
+
+// delete a beer (non cascading to favorites)
+router.delete('/beers/:id', (req, res) => {
+  const { id } = req.params
+  knex('beers').where('id', id).del()
+  .then(rows => {
+    console.log(chalk.blue('deleted beer: ', rows))
+    res.sendStatus(200)
+  })
+  .catch(error => {
+    console.error(chalk.red('error deleting beer', JSON.stringify(error)))
+    res.status(500).json(error)
+  })
+})
+
+// delete a brewery (non cascading to beers or favorites)
+router.delete('/breweries/:id', (req, res) => {
+  const { id } = req.params
+  knex('breweries').where('id', id).del()
+  .then(rows => {
+    console.log(chalk.blue('deleted brewery: ', rows))
+    res.sendStatus(200)
+  })
+  .catch(error => {
+    console.error(chalk.red('error deleting brewery', JSON.stringify(error)))
+    res.status(500).json(error)
+  })
+})
+
+// delete a favorite
+// TODO: hello world
+router.delete('/users/:user_id/favorites/:favorite_id', (req, res) => {
+  const { favorite_id } = req.params
+  knex('favorites').where('id', favorite_id).del()
+  .then(rows => {
+    console.log(chalk.blue('deleted brewery: ', rows))
+    res.sendStatus(200)
+  })
+  .catch(error => {
+    console.error(chalk.red('error deleting a favorite', JSON.stringify(error)))
+    res.status(500).json(error)
   })
 })
 
