@@ -10,7 +10,6 @@ const { Beers, Breweries, Users, Favorites } = require('./yayson')
 // get all breweries
 router.get('/breweries', (req, res) => {
   knex('breweries').count().then(count => {
-    console.log(JSON.stringify(count))
     knex('breweries').select().limit(req.query.limit || count).offset(req.query.limit || 0).orderBy('id')
       .then(breweries => {
         res.status(200).json(Breweries.render(breweries, { meta: count[0] }))
@@ -152,6 +151,7 @@ router.post('/breweries', (req, res) => {
         })
         .catch(error => {
           console.error(chalk.red('error adding a brewery to db: ', JSON.stringify(error)))
+          res.status(500).json(error)
         })
     }).catch(error => {
       console.error(chalk.red('error adding a brewery to db: ', error))
@@ -317,7 +317,6 @@ router.delete('/breweries/:id', (req, res) => {
 })
 
 // delete a favorite
-// TODO: hello world
 router.delete('/users/:user_id/favorites/:favorite_id', (req, res) => {
   const { favorite_id } = req.params
   knex('favorites').where('id', favorite_id).del()

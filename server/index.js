@@ -11,7 +11,10 @@ app.set('port', process.env.PORT || 3000)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(morgan('dev'))
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'))
+}
 
 app.use('/api/v1', router)
 
@@ -27,3 +30,5 @@ if (!module.parent) {
     console.log(chalk.green.bold(`BYOB is running on ${app.get('port')}.`))
   })
 }
+
+module.exports = app

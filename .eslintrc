@@ -1,14 +1,25 @@
 {
-    "extends": "standard",
-    "plugins": ["standard", "promise"],
-    "rules": {
-      "comma-dangle": ["error", "always-multiline"],
-      "space-before-function-paren": [
-        "error", {
-          "anonymous": "always",
-          "named": "never",
-          "asyncArrow": "ignore"
-        }
-      ]
-   }
+  "extends": "standard",
+  "plugins": [
+    "standard",
+    "promise"
+  ],
+  "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "ignore"
+      }
+    ]
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  }
 }
