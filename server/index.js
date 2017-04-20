@@ -1,6 +1,5 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const morgan = require('morgan')
 const chalk = require('chalk')
 const path = require('path')
 const router = require('./router')
@@ -12,7 +11,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'production') {
+  const morgan = require('morgan')
   app.use(morgan('dev'))
 }
 
